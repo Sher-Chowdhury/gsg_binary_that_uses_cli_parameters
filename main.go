@@ -12,11 +12,18 @@ func main() {
 	myMessage := ""
 	arguments := os.Args
 
-	fmt.Println(reflect.TypeOf(arguments)) // this is a slice
+	fmt.Println(reflect.TypeOf(arguments)) // this is a slice, where, by default the first element in the slice is the name of the binary itself
 	// https://golang.org/pkg/builtin/#len
+
 	if len(arguments) == 1 {
-		myMessage = "No arguements provided"
-		fmt.Println(myMessage)
+		myMessage = "Error: No arguements provided!\n"
+		fmt.Print(myMessage)
+
+		// however't it's better pracice to send this message to Linux's standard error
+		io.WriteString(os.Stderr, myMessage)
+		// That way, you can then ignore this message if you want by doing:
+		// go run . 2>/dev/null
+
 		// here's how to exit out of a binary early with an exit code.
 		os.Exit(1)
 	} else {
